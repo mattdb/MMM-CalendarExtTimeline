@@ -24,6 +24,7 @@ Module.register("MMM-CalendarExtTimeline",{
 		time_display_section_format: "hh:mm a",
 		calendars: [],
 		source: "CALEXT2", // "CALEXT" or "CALEXT2"
+		hide_after_end_time: false,
 	},
 
 	start: function() {
@@ -55,6 +56,10 @@ Module.register("MMM-CalendarExtTimeline",{
 			this.endTime.diff(this.startTime, "seconds")
 			/ this.config.time_display_section_count
 		)
+
+		if (this.config.hide_after_end_time && moment().isAfter(this.endTime)) {
+			return document.createElement("div")
+		}
 
 		var wrapper = document.createElement("div")
 		wrapper.className = "CALEXT CEXTML timeline"
