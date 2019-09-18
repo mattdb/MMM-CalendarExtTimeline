@@ -25,6 +25,7 @@ Module.register("MMM-CalendarExtTimeline",{
 		calendars: [],
 		source: "CALEXT2", // "CALEXT" or "CALEXT2"
 		hide_after_end_time: false,
+		collapse_to_single_row: false,
 	},
 
 	start: function() {
@@ -115,7 +116,11 @@ Module.register("MMM-CalendarExtTimeline",{
 		var frameBody = document.createElement("tbody")
 		var i = 0
 		var self = this
-		this.names.forEach(function(name){
+		var rowNames = this.names
+		if (this.config.collapse_to_single_row) {
+			rowNames = [""]
+		}
+		rowNames.forEach(function(name){
 			var row = document.createElement("tr")
 			var nameCell = document.createElement("td")
 			nameCell.className = "calendar calendar_" + i
@@ -174,7 +179,7 @@ Module.register("MMM-CalendarExtTimeline",{
 		this.events.forEach(function(e) {
 			var eName = e.name
 			if (eName) {
-				if (eName == name) {
+				if (self.config.collapse_to_single_row || (eName == name)) {
 					var eStart = moment.unix(e.startDate / 1000)
 					var eEnd = moment.unix(e.endDate / 1000)
 					var isValid = false
@@ -220,7 +225,6 @@ Module.register("MMM-CalendarExtTimeline",{
 				}
 			}
 		})
-		console.log(stack)
 		stack.forEach(function(s) {
 			var line = document.createElement("div")
 			line.className = "eventPositionLine"
