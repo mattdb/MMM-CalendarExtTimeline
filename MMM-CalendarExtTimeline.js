@@ -123,7 +123,11 @@ Module.register("MMM-CalendarExtTimeline",{
 		rowNames.forEach(function(name){
 			var row = document.createElement("tr")
 			var nameCell = document.createElement("td")
-			nameCell.className = "calendar calendar_" + i
+			if (self.config.collapse_to_single_row) {
+				nameCell.className = "calendar calendar_single_row"
+			} else {
+				nameCell.className = "calendar calendar_" + i
+			}
 			nameCell.innerHTML = name
 			var scheduleCell = document.createElement("td")
 			scheduleCell.className = "schedules schedules_" + i
